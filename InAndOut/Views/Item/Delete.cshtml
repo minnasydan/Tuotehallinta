@@ -1,22 +1,35 @@
-﻿@model InAndOut.Models.ExpenseType
+﻿@model InAndOut.Models.Item
 
 <form method="post" asp-action="DeletePost">
-    <input asp-for="ExpenseTypeId" hidden />
+    <input asp-for="Id" hidden />
     <div class="border p-3">
         @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
         <div class="form-group row">
-            <h2 class="text-black-50 pl-3">Delete Expense Type</h2>
+            <h2 class="text-black-50 pl-3">Delete Item</h2>
         </div>
         <div class="row">
             <div class="col-12">
                 <div class="form-group row">
-                    <div class="col-6">
-                        <label asp-for="Name"></label>
+                    <div class="col-4">
+                        <label asp-for="Borrower"></label>
                     </div>
+                    <div class="col-4">
+                        <label asp-for="Lender"></label>
+                    </div>
+                    <div class="col-4">
+                        <label asp-for="ItemName"></label>
+                    </div>
+
                 </div>
                 <div class="form-group row">
-                    <div class="col-6">
-                        <input asp-for="Name" disabled class="form-control" />
+                    <div class="col-4">
+                        <input asp-for="Borrower" disabled class="form-control" />
+                    </div>
+                    <div class="col-4">
+                        <input asp-for="Lender" disabled class="form-control" />
+                    </div>
+                    <div class="col-4">
+                        <input asp-for="ItemName" disabled class="form-control" />
                     </div>
                 </div>
                 <div class="form-group row">

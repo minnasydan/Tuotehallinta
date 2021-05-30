@@ -1,4 +1,4 @@
-﻿@model InAndOut.Models.Item
+﻿@model InAndOut.Models.ViewModels.ItemVM
 
 <form method="post" asp-action="Create">
     <div class="border p-3">
@@ -8,39 +8,47 @@
         <div class="row">
             <div class="col-12">
                 <div class="form-group row">
-                    <div class="col-4">
-                        <label asp-for="ItemName"></label>
+                    <div class="col-3">
+                        <label asp-for="Item.ItemName"></label>
                     </div>
-                    <div class="col-4">
-                        <label asp-for="Borrower"></label>
+                    <div class="col-3">
+                        <label asp-for="Item.Borrower"></label>
                     </div>
-                    <div class="col-4">
-                        <label asp-for="Lender"></label>
+                    <div class="col-3">
+                        <label asp-for="Item.Lender"></label>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-4">
-                        <input asp-for="ItemName" class="form-control" />
-                    </div>
-                    <div class="col-4">
-                        <input asp-for="Borrower" class="form-control" />
-                    </div>
-                    <div class="col-4">
-                        <input asp-for="Lender" class="form-control" />
+                    <div class="col-3">
+                        <label asp-for="Item.ExpenseType                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           "></label>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-8 offset-2 row">
-                        <div class="col">
-                            <input type="submit" class="btn btn-info w-75" value="create" />
-                        </div>
-                        <div class="col">
-                            <a asp-action="Index" class="btn btn-danger w-75">Back</a>
+                    <div class="col-3">
+                        <input asp-for="Item.ItemName" class="form-control" />
+                    </div>
+                    <div class="col-3">
+                        <input asp-for="Item.Borrower" class="form-control" />
+                    </div>
+                    <div class="col-3">
+                        <input asp-for="Item.Lender" class="form-control" />
+                    </div>
+                    <div class="col-3">
+                        <select asp-for="Item.ItemTypeId" asp-items="@Model.TypeDropDown" class="form-control">
+                            <option selected>--Select Expense Type</option>
+                        </select>
+                        <span asp-validation-for="Item.ItemTypeId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8 offset-2 row">
+                            <div class="col">
+                                <input type="submit" class="btn btn-info w-75" value="create" />
+                            </div>
+                            <div class="col">
+                                <a asp-action="Index" class="btn btn-danger w-75">Back</a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
         </div>
     </div>
 </form>

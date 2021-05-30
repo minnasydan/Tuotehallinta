@@ -1,6 +1,8 @@
 ﻿using InAndOut.Data;
 using InAndOut.Models;
+using InAndOut.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,25 +21,50 @@ namespace InAndOut.Controllers
 
 
         public IActionResult Index()
-        {
+        {   
             IEnumerable<Expense> objList = _db.Expenses;
+
+            //foreach (var obj in objList)
+            //{
+            //    obj.ExpenseType = _db.ExpenseTypes.FirstOrDefault(u => u.ExpenseTypeId == obj.ExpenseTypeId);
+            //}
+
             return View(objList);
         }
 
         // GET-Create
         public IActionResult Create()
         {
-            return View();
+            //IEnumerable<SelectListItem> TypeDropDown = _db.ExpenseTypes.Select(i => new SelectListItem
+            //{
+            //    Text = i.Name,
+            //    Value = i.ExpenseTypeId.ToString()
+            //});
+
+            //ViewBag.TypeDropDown = TypeDropDown;
+
+            ExpenseVM expenseVM = new ExpenseVM()
+            {
+                Expense = new Expense(),
+                TypeDropDown = _db.ExpenseTypes.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.ExpenseTypeId.ToString()
+                })
+            };
+
+            return View(expenseVM);
         }
 
         // POST-Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Expense obj)
+        public IActionResult Create(ExpenseVM obj)
         {
             if(ModelState.IsValid)
             {
-                _db.Expenses.Add(obj);
+                //obj.ExTypeId = 1;
+                _db.Expenses.Add(obj.Expense);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -82,27 +109,37 @@ namespace InAndOut.Controllers
         // GET Update
         public IActionResult Update(int? id)
         {
+            ExpenseVM expenseVM = new ExpenseVM()
+            {
+                Expense = new Expense(),
+                TypeDropDown = _db.ExpenseTypes.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.ExpenseTypeId.ToString()
+                })
+            };
+
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            var obj = _db.Expenses.Find(id);
-            if (obj == null)
+            expenseVM.Expense = _db.Expenses.Find(id);
+            if (expenseVM.Expense == null)
             {
                 return NotFound();
             }
-            return View(obj);
+            return View(expenseVM);
 
         }
 
         // POST Update
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(Expense obj) //Can be the same name with another because parameters are different
+        public IActionResult Update(ExpenseVM obj) //Can be the same name with another because parameters are different
         {
             if (ModelState.IsValid)
             {
-                _db.Expenses.Update(obj);
+                _db.Expenses.Update(obj.Expense);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }

@@ -4,14 +4,16 @@ using InAndOut.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InAndOut.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210519231007_AddedExpenseTypeFK")]
+    partial class AddedExpenseTypeFK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,6 +29,9 @@ namespace InAndOut.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("ExpenseName")
@@ -69,35 +74,18 @@ namespace InAndOut.Migrations
                     b.Property<string>("Borrower")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ExpenseTypeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ItemName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ItemTypeId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Lender")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExpenseTypeId");
-
                     b.ToTable("Items");
                 });
 
             modelBuilder.Entity("InAndOut.Models.Expense", b =>
-                {
-                    b.HasOne("InAndOut.Models.ExpenseType", "ExpenseType")
-                        .WithMany()
-                        .HasForeignKey("ExpenseTypeId");
-
-                    b.Navigation("ExpenseType");
-                });
-
-            modelBuilder.Entity("InAndOut.Models.Item", b =>
                 {
                     b.HasOne("InAndOut.Models.ExpenseType", "ExpenseType")
                         .WithMany()

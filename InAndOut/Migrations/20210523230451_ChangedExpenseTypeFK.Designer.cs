@@ -4,14 +4,16 @@ using InAndOut.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InAndOut.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210523230451_ChangedExpenseTypeFK")]
+    partial class ChangedExpenseTypeFK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,16 +31,16 @@ namespace InAndOut.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
+                    b.Property<int>("ExTypeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ExpenseName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ExpenseTypeId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ExpenseTypeId");
+                    b.HasIndex("ExTypeId");
 
                     b.ToTable("Expenses");
                 });
@@ -92,7 +94,9 @@ namespace InAndOut.Migrations
                 {
                     b.HasOne("InAndOut.Models.ExpenseType", "ExpenseType")
                         .WithMany()
-                        .HasForeignKey("ExpenseTypeId");
+                        .HasForeignKey("ExTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ExpenseType");
                 });

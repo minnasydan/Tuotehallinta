@@ -113,27 +113,37 @@ namespace InAndOut.Controllers
         // GET Update
         public IActionResult Update(int? id)
         {
+            ItemVM itemVM = new ItemVM()
+            {
+                Item = new Item(),
+                TypeDropDown = _db.ExpenseTypes.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.ExpenseTypeId.ToString()
+                })
+            };
+
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            var obj = _db.Items.Find(id);
-            if (obj == null)
+            itemVM.Item = _db.Items.Find(id);
+            if (itemVM.Item == null)
             {
                 return NotFound();
             }
-            return View(obj);
+            return View(itemVM);
 
         }
 
         // POST Update
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(Item obj) //Can be the same name with another because parameters are different
+        public IActionResult Update(ItemVM obj) //Can be the same name with another because parameters are different
         {
             if (ModelState.IsValid)
             {
-                _db.Items.Update(obj);
+                _db.Items.Update(obj.Item);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
